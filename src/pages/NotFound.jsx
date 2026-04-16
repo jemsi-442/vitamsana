@@ -1,18 +1,28 @@
 import { Link } from 'react-router-dom';
+import { usePageMeta } from '../hooks/usePageMeta';
 
 const NotFound = () => {
+  usePageMeta({
+    title: 'Page Not Found',
+    description: 'The page you requested could not be found. Return to the Vitamsana home page to continue browsing the restaurant experience.',
+    path: '/404',
+  });
+
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-900">
-      <div className="text-center px-4">
-        <h1 className="text-6xl font-bold text-gray-800 dark:text-white mb-4">404</h1>
-        <p className="text-xl text-gray-600 dark:text-gray-300 mb-8">
-          Oops! The page you're looking for doesn't exist.
+    <div className="flex min-h-screen items-center justify-center px-4 py-12">
+      <div className="surface-card w-full max-w-2xl px-6 py-12 text-center md:px-10">
+        <p className="pill-label">404</p>
+        <h1 className="mt-4 text-5xl font-bold text-ink-900 dark:text-white md:text-6xl">
+          That page is off the menu.
+        </h1>
+        <p className="mx-auto mb-8 mt-4 max-w-xl text-lg leading-8 text-[#6d5445] dark:text-[#d8c4b5]">
+          The link you opened does not exist right now, but the main Vitamsana experience is ready and easy to get back to.
         </p>
         <Link
           to="/"
-          className="inline-block bg-green-600 hover:bg-green-700 text-white font-medium py-3 px-6 rounded-lg transition duration-300"
+          className="cta-primary"
         >
-          Go back home
+          Return home
         </Link>
       </div>
     </div>

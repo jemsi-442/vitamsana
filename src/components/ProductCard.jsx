@@ -1,58 +1,54 @@
 import { useCart } from '../context/CartContext';
+import { formatTsh } from '../utils/formatCurrency';
 
 const ProductCard = ({ product }) => {
   const { openProductModal } = useCart();
 
   const whatsappMessage = encodeURIComponent(
-    `Hello, I would like to order ${product.name} priced at TSh ${product.price.toFixed(2)}${product.unit || ''}.`
+    `Hello, I would like to order ${product.name} priced at ${formatTsh(product.price)}${product.unit || ''}.`
   );
   const whatsappURL = `https://wa.me/255683186987?text=${whatsappMessage}`;
 
   return (
     <div
-      className="
-        bg-[#FFF9F3] dark:bg-[#1E1A17]
-        rounded-2xl overflow-hidden
-        shadow-md hover:shadow-xl
-        transition-all duration-300 hover:scale-105 cursor-pointer
-        border border-[#F5E6D3] dark:border-[#3A2F29]
-      "
+      className="group cursor-pointer overflow-hidden rounded-[26px] border border-white/60 bg-white/78 shadow-warm transition-all duration-300 hover:-translate-y-1.5 dark:border-white/10 dark:bg-[#1a1411]/86"
       onClick={() => openProductModal(product)}
     >
-      <div className="h-48 overflow-hidden rounded-t-2xl">
-        <img 
-          src={product.imageSrc} 
+      <div className="relative h-52 overflow-hidden">
+        <img
+          src={product.imageSrc}
           alt={product.name}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
         />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#23160f]/70 via-transparent to-transparent" />
+        <span className="absolute left-4 top-4 rounded-full bg-white/88 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-brand-700">
+          {product.category.replace('-', ' ')}
+        </span>
       </div>
 
-      <div className="p-4">
-        <h3 className="text-lg font-semibold text-[#D35400] dark:text-[#F39C12] mb-1">
+      <div className="p-5">
+        <h3 className="text-xl font-semibold text-ink-900 dark:text-white mb-2">
           {product.name}
         </h3>
 
-        <p className="text-[#E67E22] dark:text-[#F39C12] font-bold">
-          TSh {product.price.toFixed(2)}
+        <p className="font-bold text-brand-600 dark:text-brand-200">
+          {formatTsh(product.price)}
           {product.unit && (
-            <span className="text-sm text-gray-600 dark:text-gray-400 ml-1">
+            <span className="ml-1 text-sm font-normal text-[#7e6351] dark:text-[#d4bfae]">
               {product.unit}
             </span>
           )}
         </p>
 
-        {/* WhatsApp Order Button */}
+        <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#6c5344] dark:text-[#d8c4b5]">
+          {product.description}
+        </p>
+
         <a
           href={whatsappURL}
           target="_blank"
           rel="noopener noreferrer"
-          className="
-            mt-3 inline-block
-            bg-[#D35400] hover:bg-[#E67E22]
-            text-white font-bold
-            py-2 px-4 rounded-lg text-sm
-            shadow-md
-          "
+          className="mt-4 inline-flex items-center rounded-full bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
           onClick={(e) => e.stopPropagation()}
         >
           Order via WhatsApp

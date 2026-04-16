@@ -8,18 +8,16 @@ export const ThemeProvider = ({ children }) => {
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
-    // Update document class for Tailwind dark mode
     document.documentElement.classList.toggle('dark', savedTheme === 'dark');
 
-    // Optional: update CSS variables for custom colors
     if (savedTheme === 'light') {
-      document.documentElement.style.setProperty('--primary-bg', '#ffffff'); // white background
-      document.documentElement.style.setProperty('--primary-text', '#1f2937'); // gray-800
-      document.documentElement.style.setProperty('--accent', '#10b981'); // green-500
+      document.documentElement.style.setProperty('--primary-bg', '#fff8f1');
+      document.documentElement.style.setProperty('--primary-text', '#2f241d');
+      document.documentElement.style.setProperty('--accent', '#d96a12');
     } else {
-      document.documentElement.style.setProperty('--primary-bg', '#1f2937'); // gray-800
-      document.documentElement.style.setProperty('--primary-text', '#f3f4f6'); // gray-100
-      document.documentElement.style.setProperty('--accent', '#f97316'); // orange-500
+      document.documentElement.style.setProperty('--primary-bg', '#120d0a');
+      document.documentElement.style.setProperty('--primary-text', '#f7efe5');
+      document.documentElement.style.setProperty('--accent', '#f68f32');
     }
   }, []);
 
@@ -29,15 +27,14 @@ export const ThemeProvider = ({ children }) => {
     localStorage.setItem('theme', newTheme);
     document.documentElement.classList.toggle('dark', newTheme === 'dark');
 
-    // Update CSS variables on toggle
     if (newTheme === 'light') {
-      document.documentElement.style.setProperty('--primary-bg', '#ffffff');
-      document.documentElement.style.setProperty('--primary-text', '#1f2937');
-      document.documentElement.style.setProperty('--accent', '#10b981');
+      document.documentElement.style.setProperty('--primary-bg', '#fff8f1');
+      document.documentElement.style.setProperty('--primary-text', '#2f241d');
+      document.documentElement.style.setProperty('--accent', '#d96a12');
     } else {
-      document.documentElement.style.setProperty('--primary-bg', '#1f2937');
-      document.documentElement.style.setProperty('--primary-text', '#f3f4f6');
-      document.documentElement.style.setProperty('--accent', '#f97316');
+      document.documentElement.style.setProperty('--primary-bg', '#120d0a');
+      document.documentElement.style.setProperty('--primary-text', '#f7efe5');
+      document.documentElement.style.setProperty('--accent', '#f68f32');
     }
   };
 

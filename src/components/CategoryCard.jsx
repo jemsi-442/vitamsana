@@ -2,21 +2,25 @@ import { Link } from 'react-router-dom';
 
 const CategoryCard = ({ name, image, slug }) => {
   return (
-    <Link 
+    <Link
       to={`/shop?category=${slug}`}
-      className="bg-orange-50 dark:bg-gray-900 rounded-lg overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-orange-200 dark:border-orange-600"
+      className="group overflow-hidden rounded-[26px] border border-white/60 bg-white/75 shadow-warm backdrop-blur transition-all duration-300 hover:-translate-y-1 dark:border-white/10 dark:bg-[#1a1411]/86"
     >
-      <div className="p-6 flex flex-col items-center">
-        <div className="w-24 h-24 rounded-full overflow-hidden border-2 border-green-300 dark:border-green-700 mb-4">
-          <img 
-            src={image} 
-            alt={name}
-            className="w-full h-full object-cover"
-          />
+      <div className="relative h-56 overflow-hidden">
+        <img
+          src={image}
+          alt={name}
+          className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#20130b] via-[#20130b]/35 to-transparent" />
+        <div className="absolute bottom-0 left-0 right-0 p-5">
+          <span className="pill-label border-white/15 bg-white/10 text-white dark:text-white">
+            Browse
+          </span>
+          <h3 className="mt-3 text-2xl font-bold text-white">
+            {name}
+          </h3>
         </div>
-        <h3 className="text-lg font-medium text-gray-800 dark:text-white">
-          {name}
-        </h3>
       </div>
     </Link>
   );

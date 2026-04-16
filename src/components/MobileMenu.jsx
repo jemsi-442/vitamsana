@@ -9,18 +9,17 @@ const MobileMenu = ({ isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-40 md:hidden">
-      {/* Background Overlay */}
-      <div 
-        className="absolute inset-0 bg-black bg-opacity-50"
+      <div
+        className="absolute inset-0 bg-black/45 backdrop-blur-sm"
         onClick={onClose}
       />
 
-      {/* Slide-in Menu */}
-      <div className="absolute top-16 right-0 w-64 bg-orange-50 dark:bg-gray-900 shadow-lg rounded-l-lg border border-orange-200 dark:border-orange-600">
+      <div className="absolute right-4 top-20 w-72 rounded-[26px] border border-white/50 bg-[#fff8f1]/90 shadow-warm backdrop-blur dark:border-white/10 dark:bg-[#1a1411]/92">
         <nav className="p-4">
+          <p className="px-4 pb-3 font-display text-2xl font-bold text-brand-700 dark:text-brand-200">
+            Vitamsana
+          </p>
           <ul className="space-y-4">
-            
-            {/* Home */}
             <li>
               <NavLink
                 to="/"
@@ -28,8 +27,8 @@ const MobileMenu = ({ isOpen, onClose }) => {
                 className={({ isActive }) =>
                   `block px-4 py-2 rounded-md font-medium ${
                     isActive
-                      ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400'
-                      : 'text-gray-800 dark:text-gray-200 hover:bg-orange-200 dark:hover:bg-orange-700'
+                      ? 'bg-brand-100 text-brand-700 dark:bg-brand-400/15 dark:text-brand-200'
+                      : 'text-[#4e392d] dark:text-[#f1dfd0] hover:bg-brand-100/70 dark:hover:bg-brand-400/12'
                   } transition-colors`
                 }
               >
@@ -37,7 +36,6 @@ const MobileMenu = ({ isOpen, onClose }) => {
               </NavLink>
             </li>
 
-            {/* Shop */}
             <li>
               <NavLink
                 to="/shop"
@@ -45,16 +43,15 @@ const MobileMenu = ({ isOpen, onClose }) => {
                 className={({ isActive }) =>
                   `block px-4 py-2 rounded-md font-medium ${
                     isActive
-                      ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400'
-                      : 'text-gray-800 dark:text-gray-200 hover:bg-orange-200 dark:hover:bg-orange-700'
+                      ? 'bg-brand-100 text-brand-700 dark:bg-brand-400/15 dark:text-brand-200'
+                      : 'text-[#4e392d] dark:text-[#f1dfd0] hover:bg-brand-100/70 dark:hover:bg-brand-400/12'
                   } transition-colors`
                 }
               >
-                Shop
+                Menu
               </NavLink>
             </li>
 
-            {/* 🔥 NEW: About Us */}
             <li>
               <NavLink
                 to="/about"
@@ -62,8 +59,8 @@ const MobileMenu = ({ isOpen, onClose }) => {
                 className={({ isActive }) =>
                   `block px-4 py-2 rounded-md font-medium ${
                     isActive
-                      ? 'bg-green-100 dark:bg-green-900 text-green-600 dark:text-green-400'
-                      : 'text-gray-800 dark:text-gray-200 hover:bg-orange-200 dark:hover:bg-orange-700'
+                      ? 'bg-brand-100 text-brand-700 dark:bg-brand-400/15 dark:text-brand-200'
+                      : 'text-[#4e392d] dark:text-[#f1dfd0] hover:bg-brand-100/70 dark:hover:bg-brand-400/12'
                   } transition-colors`
                 }
               >
@@ -74,14 +71,13 @@ const MobileMenu = ({ isOpen, onClose }) => {
           </ul>
         </nav>
 
-        {/* Cart + Theme Toggle */}
-        <div className="p-4 border-t border-orange-200 dark:border-orange-600 flex items-center justify-between">
+        <div className="flex items-center justify-between border-t border-brand-200/70 p-4 dark:border-brand-400/15">
           <button
             onClick={() => {
               setIsCartOpen(true);
               onClose();
             }}
-            className="flex items-center space-x-2 text-gray-800 dark:text-gray-200 hover:text-green-600 dark:hover:text-green-400 transition"
+            className="flex items-center space-x-2 text-[#4e392d] transition hover:text-brand-600 dark:text-[#f1dfd0] dark:hover:text-brand-200"
           >
             <span>Cart ({cartCount})</span>
           </button>

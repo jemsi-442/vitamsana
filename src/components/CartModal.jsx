@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { FaTimes, FaTrash, FaPaperPlane } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
 import { products } from '../data/products';
+import { formatTsh } from '../utils/formatCurrency';
 
 const contactNumber = '+255683186987';
 
@@ -56,73 +57,71 @@ const CartModal = () => {
   if (!isCartOpen) return null;
 
   return (
-    <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/55"
       onClick={() => setIsCartOpen(false)}
     >
-      <div 
-        className="bg-orange-50 dark:bg-gray-900 rounded-xl shadow-xl w-full max-w-md max-h-[90vh] mx-4 overflow-hidden flex flex-col"
+      <div
+        className="mx-4 flex max-h-[90vh] w-full max-w-md flex-col overflow-hidden rounded-[30px] border border-white/50 bg-[#fffaf5] shadow-2xl dark:border-white/10 dark:bg-[#18110d]"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Header */}
-        <div className="flex justify-between items-center p-4 bg-orange-500 dark:bg-orange-600 text-white rounded-t-xl">
+        <div className="flex items-center justify-between bg-brand-600 p-5 text-white">
           <h2 className="text-xl font-bold">
             {cartCount > 0 ? 'Your Cart' : 'Cart is Empty'}
           </h2>
-          <button 
+          <button
             onClick={() => setIsCartOpen(false)}
-            className="hover:bg-orange-600 p-1 rounded-full transition"
+            className="rounded-full p-1 transition hover:bg-black/10"
           >
             <FaTimes size={20} />
           </button>
         </div>
 
-        {/* Cart Items */}
         <div className="flex-grow overflow-y-auto p-4">
           {cartCount === 0 ? (
             <div className="text-center py-8">
-              <p className="text-gray-500 dark:text-gray-400 mb-4">
+              <p className="mb-4 text-[#6e5545] dark:text-[#d8c4b5]">
                 Your cart is empty.
               </p>
-              <button 
+              <button
                 onClick={() => setIsCartOpen(false)}
-                className="bg-green-500 hover:bg-green-600 text-white font-medium py-2 px-6 rounded-full transition"
+                className="cta-primary"
               >
-                Continue Shopping
+                Continue browsing
               </button>
             </div>
           ) : (
             <div className="space-y-4">
               {cartProducts.map(item => (
-                <div 
+                <div
                   key={item.id}
-                  className="flex items-center gap-4 p-3 border-b border-orange-300 dark:border-orange-600"
+                  className="flex items-center gap-4 rounded-[22px] border border-brand-100 bg-white/70 p-3 dark:border-brand-400/10 dark:bg-white/5"
                 >
-                  <img 
-                    src={item.imageSrc} 
+                  <img
+                    src={item.imageSrc}
                     alt={item.name}
-                    className="w-16 h-16 object-cover rounded-md max-h-[80px]"
+                    className="h-16 w-16 max-h-[80px] rounded-2xl object-cover"
                   />
                   <div className="flex-grow">
-                    <h3 className="font-medium text-gray-800 dark:text-white">{item.name}</h3>
-                    <p className="text-green-600 dark:text-green-400">
-                      Tsh {(item.price * 2600).toFixed(0)} {item.unit}
+                    <h3 className="font-medium text-ink-900 dark:text-white">{item.name}</h3>
+                    <p className="text-brand-600 dark:text-brand-200">
+                      {formatTsh(item.price)} {item.unit}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button 
+                    <button
                       onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                      className="w-8 h-8 flex items-center justify-center bg-orange-100 dark:bg-orange-900 text-gray-900 dark:text-white rounded-md"
+                      className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-100 text-gray-900 dark:bg-brand-400/20 dark:text-white"
                     >-</button>
                     <span className="w-10 text-center dark:text-white">{item.quantity}</span>
-                    <button 
+                    <button
                       onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                      className="w-8 h-8 flex items-center justify-center bg-orange-100 dark:bg-orange-900 text-gray-900 dark:text-white rounded-md"
+                      className="flex h-8 w-8 items-center justify-center rounded-md bg-brand-100 text-gray-900 dark:bg-brand-400/20 dark:text-white"
                     >+</button>
                   </div>
-                  <button 
+                  <button
                     onClick={() => removeFromCart(item.id)}
-                    className="text-red-500 hover:text-red-600 dark:text-white p-2"
+                    className="p-2 text-red-500 transition hover:text-red-600 dark:text-white"
                   >
                     <FaTrash />
                   </button>
@@ -132,28 +131,26 @@ const CartModal = () => {
           )}
         </div>
 
-        {/* Subtotal + Actions */}
         {cartCount > 0 && (
-          <div className="border-t border-orange-300 dark:border-orange-600 p-4 space-y-2">
-            <div className="flex justify-between items-center mb-4">
-              <span className="font-medium text-gray-700 dark:text-gray-300">Subtotal:</span>
+          <div className="space-y-2 border-t border-brand-200/80 p-4 dark:border-brand-400/15">
+            <div className="mb-4 flex items-center justify-between">
+              <span className="font-medium text-[#6e5545] dark:text-[#d8c4b5]">Subtotal:</span>
               <span className="font-bold text-gray-900 dark:text-white">
-                Tsh {(subtotal * 2600).toFixed(0)}
+                {formatTsh(subtotal)}
               </span>
             </div>
 
             <div className="flex flex-col gap-2">
-              <a href={whatsappURL} target="_blank" rel="noopener noreferrer" className="w-full bg-green-500 hover:bg-green-600 text-white font-medium py-3 rounded-md text-center transition">Order via WhatsApp</a>
-              <a href={smsURL} className="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-3 rounded-md text-center transition">Order via SMS</a>
-              <a href={callURL} className="w-full bg-gray-700 hover:bg-gray-800 text-white font-medium py-3 rounded-md text-center transition">Call Us</a>
+              <a href={whatsappURL} target="_blank" rel="noopener noreferrer" className="w-full rounded-2xl bg-[#21a45d] py-3 text-center font-medium text-white transition hover:bg-[#1c8f51]">Order via WhatsApp</a>
+              <a href={smsURL} className="w-full rounded-2xl bg-[#3460d9] py-3 text-center font-medium text-white transition hover:bg-[#2e56c2]">Order via SMS</a>
+              <a href={callURL} className="w-full rounded-2xl bg-[#3e322b] py-3 text-center font-medium text-white transition hover:bg-[#2e2520]">Call Us</a>
             </div>
 
-            {/* Mini Chat */}
-            <div className="mt-4 border-t border-orange-300 dark:border-orange-600 pt-2">
-              <h3 className="font-medium text-gray-800 dark:text-white mb-2">Chat with us</h3>
-              <div className="h-40 overflow-y-auto bg-orange-50 dark:bg-gray-800 p-2 rounded-md space-y-1">
+            <div className="mt-4 border-t border-brand-200/80 pt-3 dark:border-brand-400/15">
+              <h3 className="mb-2 font-medium text-ink-900 dark:text-white">Chat with us</h3>
+              <div className="h-40 space-y-1 overflow-y-auto rounded-2xl bg-[#fff3e4] p-2 dark:bg-white/5">
                 {messages.map((msg, idx) => (
-                  <div key={idx} className={`p-1 rounded ${msg.sender === 'user' ? 'bg-green-200 dark:bg-green-600 text-gray-900 dark:text-white' : 'bg-orange-100 dark:bg-orange-700 text-gray-900 dark:text-white'} max-w-xs`}>
+                  <div key={idx} className={`max-w-xs rounded-xl p-2 text-sm ${msg.sender === 'user' ? 'bg-[#d6f0df] text-gray-900 dark:bg-[#1f6a43] dark:text-white' : 'bg-brand-100 text-gray-900 dark:bg-brand-400/20 dark:text-white'}`}>
                     {msg.text}
                   </div>
                 ))}
@@ -164,10 +161,10 @@ const CartModal = () => {
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   placeholder="Type a message..."
-                  className="flex-grow px-3 py-2 rounded-md border border-orange-300 dark:border-orange-600 dark:bg-gray-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
+                  className="flex-grow rounded-2xl border border-brand-200 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-400 dark:border-brand-400/15 dark:bg-white/5 dark:text-white"
                   onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
                 />
-                <button onClick={handleSendMessage} className="bg-orange-500 hover:bg-orange-600 text-white px-4 rounded-md flex items-center justify-center transition">
+                <button onClick={handleSendMessage} className="flex items-center justify-center rounded-2xl bg-brand-600 px-4 text-white transition hover:bg-brand-500">
                   <FaPaperPlane />
                 </button>
               </div>
