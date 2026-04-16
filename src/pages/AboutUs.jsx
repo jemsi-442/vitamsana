@@ -1,8 +1,52 @@
 import React from 'react';
 import { FaInstagram, FaMapMarkerAlt, FaPhoneAlt, FaTiktok, FaWhatsapp } from 'react-icons/fa';
+import { useLanguage } from '../context/LanguageContext';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 const AboutUs = () => {
+  const { language } = useLanguage();
+  const text = {
+    en: {
+      title: 'About Us',
+      description: 'Learn more about Vitamsana, a warmer restaurant brand built around fresh meals, smooth ordering, and local flavor.',
+      aboutLabel: 'About Vitamsana',
+      heading: 'A warmer food brand with local soul and a modern feel.',
+      paragraphOne: 'Vitamsana is shaped around fresh meals, welcoming service, and a smooth ordering flow for guests who want quality without friction. We leaned the brand toward a polished restaurant identity instead of a generic online store.',
+      paragraphTwo: 'Whether guests are walking in, sending a WhatsApp order, or checking the menu from home, the experience should feel calm, appetizing, and unmistakably Vitamsana.',
+      visitLabel: 'Visit us',
+      visitHeading: 'Dar es Salaam energy, plated with intention.',
+      visitParagraphOne: 'The messaging now avoids mixed naming and keeps Vitamsana front and center. If you want, we can later plug in the exact verified address and contact wording you prefer for production.',
+      visitParagraphTwo: 'Current contact channels stay visible so guests can move from discovery to ordering without hunting for links.',
+      locationLabel: 'Location details',
+      locationHeading: 'Address confirmation is the last big production task.',
+      locationParagraphOne: 'I removed the placeholder map embed so the live site does not point visitors to an unverified location. For now, guests can use WhatsApp or call to request directions directly.',
+      locationParagraphTwo: 'Once you have the exact business address or Google Maps embed, this block can be swapped back to a real map in a few minutes.',
+      requestLocation: 'Request location on WhatsApp',
+      callDirections: 'Call for directions',
+      call: 'Call',
+      location: 'Location',
+    },
+    sw: {
+      title: 'Kutuhusu',
+      description: 'Fahamu zaidi kuhusu Vitamsana, restaurant brand yenye ladha ya nyumbani, huduma laini, na oda rahisi.',
+      aboutLabel: 'Kuhusu Vitamsana',
+      heading: 'Brand ya chakula yenye joto la nyumbani na hisia ya kisasa.',
+      paragraphOne: 'Vitamsana imejengwa juu ya chakula fresh, huduma ya ukarimu, na mfumo rahisi wa oda kwa wageni wanaotaka ubora bila usumbufu. Tumeielekeza brand hii iwe restaurant identity halisi badala ya online store ya kawaida.',
+      paragraphTwo: 'Mteja awe anakuja moja kwa moja, anatuma oda WhatsApp, au anaangalia menyu akiwa nyumbani, uzoefu unatakiwa ujisikie mtulivu, wa kuvutia, na wa Vitamsana kweli.',
+      visitLabel: 'Tutembelee',
+      visitHeading: 'Nguvu ya Dar es Salaam, imepangwa kwa umakini.',
+      visitParagraphOne: 'Ujumbe sasa hauna mchanganyiko wa majina na unaweka Vitamsana mbele wazi. Baadaye tunaweza kuweka address na wording rasmi ya biashara kwa production.',
+      visitParagraphTwo: 'Njia za mawasiliano zinaonekana wazi ili mteja ahame kutoka kutazama hadi kuagiza bila kutafuta sana.',
+      locationLabel: 'Maelezo ya location',
+      locationHeading: 'Kuthibitisha address ndiyo kazi kubwa iliyobaki kwa production.',
+      locationParagraphOne: 'Nimeondoa map embed ya placeholder ili live site isimpeleke mteja kwenye location isiyothibitishwa. Kwa sasa wageni wanaweza kuomba maelekezo kupitia WhatsApp au kupiga simu.',
+      locationParagraphTwo: 'Ukishapata address halisi ya biashara au Google Maps embed, block hii inaweza kurudishwa kuwa map halisi ndani ya dakika chache.',
+      requestLocation: 'Omba location kwa WhatsApp',
+      callDirections: 'Piga simu kwa maelekezo',
+      call: 'Simu',
+      location: 'Location',
+    },
+  }[language];
   const contactItems = [
     {
       icon: FaWhatsapp,
@@ -12,21 +56,21 @@ const AboutUs = () => {
     },
     {
       icon: FaPhoneAlt,
-      label: 'Call',
+      label: text.call,
       value: '+255 683 186 987',
       href: 'tel:+255683186987',
     },
     {
       icon: FaMapMarkerAlt,
-      label: 'Location',
+      label: text.location,
       value: 'Dar es Salaam, Tanzania',
       href: 'https://maps.google.com/?q=Dar+es+Salaam+Tanzania',
     },
   ];
 
   usePageMeta({
-    title: 'About Us',
-    description: 'Learn more about Vitamsana, a warmer restaurant brand built around fresh meals, smooth ordering, and local flavor.',
+    title: text.title,
+    description: text.description,
     path: '/about',
   });
 
@@ -35,15 +79,15 @@ const AboutUs = () => {
       <div className="mx-auto max-w-7xl">
         <section className="mb-8 grid gap-6 rounded-[34px] border border-white/60 bg-white/75 p-6 shadow-warm backdrop-blur dark:border-white/10 dark:bg-[#1a1411]/86 md:grid-cols-[1.05fr_0.95fr] md:p-8">
           <div className="space-y-5">
-            <span className="pill-label">About Vitamsana</span>
+            <span className="pill-label">{text.aboutLabel}</span>
             <h1 className="text-4xl font-bold text-ink-900 dark:text-white md:text-5xl">
-              A warmer food brand with local soul and a modern feel.
+              {text.heading}
             </h1>
             <p className="text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8] md:text-base">
-              Vitamsana is shaped around fresh meals, welcoming service, and a smooth ordering flow for guests who want quality without friction. We leaned the brand toward a polished restaurant identity instead of a generic online store.
+              {text.paragraphOne}
             </p>
             <p className="text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8] md:text-base">
-              Whether guests are walking in, sending a WhatsApp order, or checking the menu from home, the experience should feel calm, appetizing, and unmistakably Vitamsana.
+              {text.paragraphTwo}
             </p>
             <div className="flex flex-wrap gap-3 pt-2">
               <a
@@ -76,15 +120,15 @@ const AboutUs = () => {
 
         <section className="grid gap-6 md:grid-cols-[0.9fr_1.1fr]">
           <div className="surface-card p-6 md:p-8">
-            <span className="pill-label">Visit us</span>
+            <span className="pill-label">{text.visitLabel}</span>
             <h2 className="mt-4 text-3xl font-bold text-ink-900 dark:text-white">
-              Dar es Salaam energy, plated with intention.
+              {text.visitHeading}
             </h2>
             <p className="mt-4 text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8] md:text-base">
-              The messaging now avoids mixed naming and keeps Vitamsana front and center. If you want, we can later plug in the exact verified address and contact wording you prefer for production.
+              {text.visitParagraphOne}
             </p>
             <p className="mt-4 text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8] md:text-base">
-              Current contact channels stay visible so guests can move from discovery to ordering without hunting for links.
+              {text.visitParagraphTwo}
             </p>
             <div className="mt-6 space-y-3">
               {contactItems.map((item) => {
@@ -116,15 +160,15 @@ const AboutUs = () => {
 
           <div className="surface-card flex flex-col justify-between p-6 md:p-8">
             <div>
-              <span className="pill-label">Location details</span>
+              <span className="pill-label">{text.locationLabel}</span>
               <h3 className="mt-4 text-3xl font-bold text-ink-900 dark:text-white">
-                Address confirmation is the last big production task.
+                {text.locationHeading}
               </h3>
               <p className="mt-4 text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8] md:text-base">
-                I removed the placeholder map embed so the live site does not point visitors to an unverified location. For now, guests can use WhatsApp or call to request directions directly.
+                {text.locationParagraphOne}
               </p>
               <p className="mt-4 text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8] md:text-base">
-                Once you have the exact business address or Google Maps embed, this block can be swapped back to a real map in a few minutes.
+                {text.locationParagraphTwo}
               </p>
             </div>
             <div className="mt-6 flex flex-wrap gap-3">
@@ -134,13 +178,13 @@ const AboutUs = () => {
                 rel="noopener noreferrer"
                 className="cta-primary"
               >
-                Request location on WhatsApp
+                {text.requestLocation}
               </a>
               <a
                 href="tel:+255683186987"
                 className="cta-secondary"
               >
-                Call for directions
+                {text.callDirections}
               </a>
             </div>
           </div>

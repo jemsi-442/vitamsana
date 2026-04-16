@@ -3,54 +3,108 @@ import { Link } from 'react-router-dom';
 import { FaClock, FaMapMarkerAlt, FaPhoneAlt, FaWhatsapp } from 'react-icons/fa';
 import CategoryCard from '../components/CategoryCard';
 import ProductCard from '../components/ProductCard';
+import { useLanguage } from '../context/LanguageContext';
 import { bestsellerIds, products } from '../data/products';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 const Home = () => {
+  const { language } = useLanguage();
   const [bestsellers, setBestsellers] = useState([]);
-  const categories = [
-    { name: 'Signature Plates', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80', slug: 'signature' },
-    { name: 'Flame Grill', image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80', slug: 'grill' },
-    { name: 'Quick Bites', image: 'https://images.unsplash.com/photo-1530469912745-a215c6b256ea?auto=format&fit=crop&w=800&q=80', slug: 'quick-bites' },
-    { name: 'Fresh Drinks', image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80', slug: 'drinks' },
-  ];
-  const highlights = [
-    'Fresh ingredients every day',
-    'Fast WhatsApp ordering',
-    'Comfort food with Dar flair',
-  ];
-  const contactCards = [
-    {
-      icon: FaWhatsapp,
-      title: 'WhatsApp orders',
-      detail: '+255 683 186 987',
-      href: 'https://wa.me/255683186987?text=Hello%20Vitamsana%2C%20I%20want%20to%20order%20today.',
+  const text = {
+    en: {
+      metaTitle: 'Fresh Food, Fast Ordering',
+      metaDescription: 'Discover Vitamsana signature plates, flame grill favorites, fresh drinks, and quick WhatsApp ordering in one polished restaurant experience.',
+      categories: [
+        { name: 'Signature Plates', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80', slug: 'signature' },
+        { name: 'Flame Grill', image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80', slug: 'grill' },
+        { name: 'Quick Bites', image: 'https://images.unsplash.com/photo-1530469912745-a215c6b256ea?auto=format&fit=crop&w=800&q=80', slug: 'quick-bites' },
+        { name: 'Fresh Drinks', image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80', slug: 'drinks' },
+      ],
+      highlights: ['Fresh ingredients every day', 'Fast WhatsApp ordering', 'Comfort food with Dar flair'],
+      contactCards: [
+        { icon: FaWhatsapp, title: 'WhatsApp orders', detail: '+255 683 186 987', href: 'https://wa.me/255683186987?text=Hello%20Vitamsana%2C%20I%20want%20to%20order%20today.' },
+        { icon: FaPhoneAlt, title: 'Call for reservations', detail: '+255 683 186 987', href: 'tel:+255683186987' },
+        { icon: FaMapMarkerAlt, title: 'Visit the restaurant', detail: 'Dar es Salaam, Tanzania', href: '/about', internal: true },
+        { icon: FaClock, title: 'Open daily', detail: '8:00 AM to 11:00 PM', href: '/shop', internal: true },
+      ],
+      heroLabel: 'Vitamsana restaurant experience',
+      heroTitle: 'Fresh plates, warm ambience, and easy ordering for every craving.',
+      heroDescription: 'Vitamsana brings together signature Swahili comfort food, grill specials, and refreshing drinks in one polished dining menu.',
+      viewMenu: 'View the menu',
+      ourStory: 'Our story',
+      signatureService: 'Signature service',
+      orderMinutes: 'Order in minutes',
+      orderMinutesText: 'Browse the menu, save dishes to your cart, then complete your order by WhatsApp, call, or SMS.',
+      popularChoice: 'Popular choice',
+      bestFor: 'Best for',
+      lunchDinner: 'Lunch & dinner',
+      exploreKitchen: 'Explore the kitchen',
+      menuCravings: 'Menu sections built for real cravings',
+      menuCravingsText: 'From breakfast starts to grill platters and coolers, each category now carries the Vitamsana restaurant story clearly.',
+      thisWeek: 'This week at Vitamsana',
+      crowdPleasers: 'Crowd-pleasers for lunch dates, evening bites, and group platters.',
+      crowdPleasersText: 'The refreshed menu leans into premium comfort food with quick ordering, making the brand feel more deliberate and more memorable.',
+      needFast: 'Need something fast?',
+      startOrderingText: 'Open the menu and send your order directly.',
+      startOrdering: 'Start ordering',
+      reservations: 'Reservations and contact',
+      nextStep: 'Make the next step obvious for every guest.',
+      nextStepText: 'Whether someone wants to book a table, ask a quick question, or place an order, the main action is now visible without digging through the page.',
+      guestFavorites: 'Guest favorites',
+      bestsellersTitle: 'Bestsellers with the strongest Vitamsana vibe',
+      bestsellersText: 'These are the dishes that help the homepage feel like a restaurant brand instead of a generic store catalog.',
     },
-    {
-      icon: FaPhoneAlt,
-      title: 'Call for reservations',
-      detail: '+255 683 186 987',
-      href: 'tel:+255683186987',
+    sw: {
+      metaTitle: 'Chakula Kitamu, Oda Haraka',
+      metaDescription: 'Karibu Vitamsana uangalie sahani maalum, grill, vinywaji fresh, na oda za haraka kupitia WhatsApp.',
+      categories: [
+        { name: 'Sahani Maalum', image: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?auto=format&fit=crop&w=800&q=80', slug: 'signature' },
+        { name: 'Grill Moto', image: 'https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80', slug: 'grill' },
+        { name: 'Vyakula vya Haraka', image: 'https://images.unsplash.com/photo-1530469912745-a215c6b256ea?auto=format&fit=crop&w=800&q=80', slug: 'quick-bites' },
+        { name: 'Vinywaji Fresh', image: 'https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80', slug: 'drinks' },
+      ],
+      highlights: ['Viungo fresh kila siku', 'Oda za haraka kwa WhatsApp', 'Ladha ya Dar yenye comfort food'],
+      contactCards: [
+        { icon: FaWhatsapp, title: 'Oda kwa WhatsApp', detail: '+255 683 186 987', href: 'https://wa.me/255683186987?text=Habari%20Vitamsana%2C%20nataka%20kuagiza%20leo.' },
+        { icon: FaPhoneAlt, title: 'Piga simu kuweka nafasi', detail: '+255 683 186 987', href: 'tel:+255683186987' },
+        { icon: FaMapMarkerAlt, title: 'Tembelea mgahawa', detail: 'Dar es Salaam, Tanzania', href: '/about', internal: true },
+        { icon: FaClock, title: 'Tunafungua kila siku', detail: '8:00 asubuhi hadi 11:00 jioni', href: '/shop', internal: true },
+      ],
+      heroLabel: 'Uzoefu wa mgahawa wa Vitamsana',
+      heroTitle: 'Sahani fresh, mazingira mazuri, na oda rahisi kwa kila hamu ya chakula.',
+      heroDescription: 'Vitamsana inaleta pamoja comfort food ya Kiswahili, grill specials, na vinywaji fresh kwenye menyu yenye muonekano wa kisasa.',
+      viewMenu: 'Angalia menyu',
+      ourStory: 'Hadithi yetu',
+      signatureService: 'Huduma yetu',
+      orderMinutes: 'Agiza ndani ya dakika chache',
+      orderMinutesText: 'Angalia menyu, hifadhi vyakula kwenye kikapu, kisha kamilisha oda yako kwa WhatsApp, simu, au SMS.',
+      popularChoice: 'Maarufu zaidi',
+      bestFor: 'Inafaa kwa',
+      lunchDinner: 'Mchana na jioni',
+      exploreKitchen: 'Chunguza jikoni',
+      menuCravings: 'Sehemu za menyu zilizopangwa kwa hamu halisi ya chakula',
+      menuCravingsText: 'Kuanzia kifungua kinywa hadi grill platters na coolers, kila category sasa linaelezea hadithi ya Vitamsana vizuri zaidi.',
+      thisWeek: 'Wiki hii Vitamsana',
+      crowdPleasers: 'Vipendwa vya wateja kwa lunch date, bites za jioni, na platters za makundi.',
+      crowdPleasersText: 'Menyu hii mpya inaleta comfort food ya kiwango na oda za haraka, hivyo brand inaonekana ya kukumbukwa zaidi.',
+      needFast: 'Unahitaji kitu cha haraka?',
+      startOrderingText: 'Fungua menyu na tuma oda yako moja kwa moja.',
+      startOrdering: 'Anza kuagiza',
+      reservations: 'Mawasiliano na nafasi',
+      nextStep: 'Fanya hatua inayofuata iwe wazi kwa kila mteja.',
+      nextStepText: 'Mteja akitaka kuweka nafasi, kuuliza swali, au kuagiza, hatua kuu sasa inaonekana wazi bila kutafuta sana.',
+      guestFavorites: 'Vipendwa vya wageni',
+      bestsellersTitle: 'Bestsellers zinazoonyesha vibe ya Vitamsana',
+      bestsellersText: 'Hivi ni vyakula vinavyofanya homepage ihisi kama restaurant brand halisi badala ya catalog ya kawaida.',
     },
-    {
-      icon: FaMapMarkerAlt,
-      title: 'Visit the restaurant',
-      detail: 'Dar es Salaam, Tanzania',
-      href: '/about',
-      internal: true,
-    },
-    {
-      icon: FaClock,
-      title: 'Open daily',
-      detail: '8:00 AM to 11:00 PM',
-      href: '/shop',
-      internal: true,
-    },
-  ];
+  }[language];
+  const categories = text.categories;
+  const highlights = text.highlights;
+  const contactCards = text.contactCards;
 
   usePageMeta({
-    title: 'Fresh Food, Fast Ordering',
-    description: 'Discover Vitamsana signature plates, flame grill favorites, fresh drinks, and quick WhatsApp ordering in one polished restaurant experience.',
+    title: text.metaTitle,
+    description: text.metaDescription,
     path: '/',
   });
 
@@ -74,20 +128,20 @@ const Home = () => {
         >
           <div className="px-6 py-10 text-white md:px-10 md:py-14">
             <span className="pill-label mb-5 bg-white/10 text-white dark:border-white/20 dark:bg-white/10 dark:text-white">
-              Vitamsana restaurant experience
+              {text.heroLabel}
             </span>
             <h1 className="max-w-2xl text-4xl font-bold leading-tight text-white md:text-6xl">
-              Fresh plates, warm ambience, and easy ordering for every craving.
+              {text.heroTitle}
             </h1>
             <p className="mt-5 max-w-xl text-base leading-7 text-[#f3dfca] md:text-lg">
-              Vitamsana brings together signature Swahili comfort food, grill specials, and refreshing drinks in one polished dining menu.
+              {text.heroDescription}
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/shop" className="cta-primary">
-                View the menu
+                {text.viewMenu}
               </Link>
               <Link to="/about" className="cta-secondary border-white/20 bg-white/10 text-white hover:bg-white/15 hover:text-white">
-                Our story
+                {text.ourStory}
               </Link>
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -105,23 +159,23 @@ const Home = () => {
           <div className="grid gap-4 bg-gradient-to-b from-white/10 to-transparent p-6 md:p-8">
             <div className="surface-card p-5">
               <p className="text-sm font-semibold uppercase tracking-[0.2em] text-brand-700 dark:text-brand-200">
-                Signature service
+                {text.signatureService}
               </p>
               <h2 className="mt-3 text-3xl font-bold text-ink-900 dark:text-white">
-                Order in minutes
+                {text.orderMinutes}
               </h2>
               <p className="mt-3 text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8]">
-                Browse the menu, save dishes to your cart, then complete your order by WhatsApp, call, or SMS.
+                {text.orderMinutesText}
               </p>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="surface-card p-5">
-                <p className="text-sm text-[#7c5f4c] dark:text-[#dbc6b3]">Popular choice</p>
+                <p className="text-sm text-[#7c5f4c] dark:text-[#dbc6b3]">{text.popularChoice}</p>
                 <p className="mt-2 text-2xl font-bold text-brand-700 dark:text-brand-200">Flame Grill</p>
               </div>
               <div className="surface-card p-5">
-                <p className="text-sm text-[#7c5f4c] dark:text-[#dbc6b3]">Best for</p>
-                <p className="mt-2 text-2xl font-bold text-brand-700 dark:text-brand-200">Lunch & dinner</p>
+                <p className="text-sm text-[#7c5f4c] dark:text-[#dbc6b3]">{text.bestFor}</p>
+                <p className="mt-2 text-2xl font-bold text-brand-700 dark:text-brand-200">{text.lunchDinner}</p>
               </div>
             </div>
           </div>
@@ -132,13 +186,13 @@ const Home = () => {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="pill-label">Explore the kitchen</span>
+              <span className="pill-label">{text.exploreKitchen}</span>
               <h2 className="mt-3 text-3xl font-bold text-ink-900 dark:text-white md:text-4xl">
-                Menu sections built for real cravings
+                {text.menuCravings}
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-[#725847] dark:text-[#d9c4b4]">
-              From breakfast starts to grill platters and coolers, each category now carries the Vitamsana restaurant story clearly.
+              {text.menuCravingsText}
             </p>
           </div>
           <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
@@ -158,22 +212,22 @@ const Home = () => {
         <div className="mx-auto grid max-w-7xl gap-6 rounded-[32px] bg-brand-600 px-6 py-8 text-white shadow-warm md:grid-cols-[1.2fr_0.8fr] md:px-10">
           <div>
             <span className="pill-label border-white/20 bg-white/10 text-white dark:text-white">
-              This week at Vitamsana
+              {text.thisWeek}
             </span>
             <h2 className="mt-4 text-3xl font-bold md:text-4xl">
-              Crowd-pleasers for lunch dates, evening bites, and group platters.
+              {text.crowdPleasers}
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-7 text-[#f7e5d4] md:text-base">
-              The refreshed menu leans into premium comfort food with quick ordering, making the brand feel more deliberate and more memorable.
+              {text.crowdPleasersText}
             </p>
           </div>
           <div className="surface-card flex flex-col justify-center p-6 text-ink-900 dark:text-white">
             <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-700 dark:text-brand-200">
-              Need something fast?
+              {text.needFast}
             </p>
-            <p className="mt-3 text-2xl font-bold">Open the menu and send your order directly.</p>
+            <p className="mt-3 text-2xl font-bold">{text.startOrderingText}</p>
             <Link to="/shop" className="cta-primary mt-5 w-fit">
-              Start ordering
+              {text.startOrdering}
             </Link>
           </div>
         </div>
@@ -183,13 +237,13 @@ const Home = () => {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="pill-label">Reservations and contact</span>
+              <span className="pill-label">{text.reservations}</span>
               <h2 className="mt-3 text-3xl font-bold text-ink-900 dark:text-white md:text-4xl">
-                Make the next step obvious for every guest.
+                {text.nextStep}
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-[#725847] dark:text-[#d9c4b4]">
-              Whether someone wants to book a table, ask a quick question, or place an order, the main action is now visible without digging through the page.
+              {text.nextStepText}
             </p>
           </div>
 
@@ -228,13 +282,13 @@ const Home = () => {
         <div className="mx-auto max-w-7xl">
           <div className="mb-8 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="pill-label">Guest favorites</span>
+              <span className="pill-label">{text.guestFavorites}</span>
               <h2 className="mt-3 text-3xl font-bold text-ink-900 dark:text-white md:text-4xl">
-                Bestsellers with the strongest Vitamsana vibe
+                {text.bestsellersTitle}
               </h2>
             </div>
             <p className="max-w-xl text-sm leading-7 text-[#725847] dark:text-[#d9c4b4]">
-              These are the dishes that help the homepage feel like a restaurant brand instead of a generic store catalog.
+              {text.bestsellersText}
             </p>
           </div>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 xl:grid-cols-5">

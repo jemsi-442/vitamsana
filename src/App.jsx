@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { CartProvider } from './context/CartContext';
+import { LanguageProvider } from './context/LanguageContext';
 import { ThemeProvider } from './context/ThemeContext';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -13,27 +14,29 @@ import ScrollToTop from './components/ScrollToTop';
 
 function App() {
   return (
-    <ThemeProvider>
-      <CartProvider>
-        <Router>
-          <div className="min-h-screen flex flex-col">
-            <Header />
-            <main className="flex-grow">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/about" element={<AboutUs />} /> {/* New Route */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-            <CartModal />
-            <ProductModal />
-            <ScrollToTop />
-          </div>
-        </Router>
-      </CartProvider>
-    </ThemeProvider>
+    <LanguageProvider>
+      <ThemeProvider>
+        <CartProvider>
+          <Router>
+            <div className="min-h-screen flex flex-col">
+              <Header />
+              <main className="flex-grow">
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/shop" element={<Shop />} />
+                  <Route path="/about" element={<AboutUs />} />
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </main>
+              <Footer />
+              <CartModal />
+              <ProductModal />
+              <ScrollToTop />
+            </div>
+          </Router>
+        </CartProvider>
+      </ThemeProvider>
+    </LanguageProvider>
   );
 }
 

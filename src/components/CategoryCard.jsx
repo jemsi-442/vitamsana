@@ -1,6 +1,10 @@
 import { Link } from 'react-router-dom';
+import { useLanguage } from '../context/LanguageContext';
 
 const CategoryCard = ({ name, image, slug }) => {
+  const { language } = useLanguage();
+  const browseText = language === 'sw' ? 'Angalia' : 'Browse';
+
   return (
     <Link
       to={`/shop?category=${slug}`}
@@ -15,7 +19,7 @@ const CategoryCard = ({ name, image, slug }) => {
         <div className="absolute inset-0 bg-gradient-to-t from-[#20130b] via-[#20130b]/35 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-5">
           <span className="pill-label border-white/15 bg-white/10 text-white dark:text-white">
-            Browse
+            {browseText}
           </span>
           <h3 className="mt-3 text-2xl font-bold text-white">
             {name}

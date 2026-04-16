@@ -1,11 +1,19 @@
 import { useCart } from '../context/CartContext';
+import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedProduct } from '../data/products';
 import { formatTsh } from '../utils/formatCurrency';
 
 const ProductCard = ({ product }) => {
+  const { language } = useLanguage();
   const { openProductModal } = useCart();
+  const localizedProduct = getLocalizedProduct(product, language);
+  const buttonText = language === 'sw' ? 'Agiza kwa WhatsApp' : 'Order via WhatsApp';
+  const orderMessage = language === 'sw'
+    ? `Habari, nataka kuagiza ${localizedProduct.name} kwa bei ya ${formatTsh(product.price)}${localizedProduct.unit || ''}.`
+    : `Hello, I would like to order ${localizedProduct.name} priced at ${formatTsh(product.price)}${localizedProduct.unit || ''}.`;
 
   const whatsappMessage = encodeURIComponent(
-    `Hello, I would like to order ${product.name} priced at ${formatTsh(product.price)}${product.unit || ''}.`
+    orderMessage
   );
   const whatsappURL = `https://wa.me/255683186987?text=${whatsappMessage}`;
 
@@ -16,32 +24,32 @@ const ProductCard = ({ product }) => {
     >
       <div className="relative h-52 overflow-hidden">
         <img
-          src={product.imageSrc}
-          alt={product.name}
+          src={localizedProduct.imageSrc}
+          alt={localizedProduct.name}
           className="h-full w-full object-cover transition duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#23160f]/70 via-transparent to-transparent" />
         <span className="absolute left-4 top-4 rounded-full bg-white/88 px-3 py-1 text-xs font-semibold uppercase tracking-[0.15em] text-brand-700">
-          {product.category.replace('-', ' ')}
+          {localizedProduct.categoryLabel}
         </span>
       </div>
 
       <div className="p-5">
         <h3 className="text-xl font-semibold text-ink-900 dark:text-white mb-2">
-          {product.name}
+          {localizedProduct.name}
         </h3>
 
         <p className="font-bold text-brand-600 dark:text-brand-200">
           {formatTsh(product.price)}
-          {product.unit && (
+          {localizedProduct.unit && (
             <span className="ml-1 text-sm font-normal text-[#7e6351] dark:text-[#d4bfae]">
-              {product.unit}
+              {localizedProduct.unit}
             </span>
           )}
         </p>
 
         <p className="mt-3 line-clamp-2 text-sm leading-6 text-[#6c5344] dark:text-[#d8c4b5]">
-          {product.description}
+          {localizedProduct.description}
         </p>
 
         <a
@@ -51,7 +59,7 @@ const ProductCard = ({ product }) => {
           className="mt-4 inline-flex items-center rounded-full bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand-500"
           onClick={(e) => e.stopPropagation()}
         >
-          Order via WhatsApp
+          {buttonText}
         </a>
       </div>
     </div>

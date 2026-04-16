@@ -1,19 +1,61 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import ProductCard from '../components/ProductCard';
-import { products } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedProduct, products } from '../data/products';
 import { usePageMeta } from '../hooks/usePageMeta';
 
 const Shop = () => {
+  const { language } = useLanguage();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [searchParams] = useSearchParams();
   const urlCategory = searchParams.get('category') || 'all';
   const [categoryFilter, setCategoryFilter] = useState(urlCategory);
   const [sortOption, setSortOption] = useState('default');
+  const text = {
+    en: {
+      title: 'Menu',
+      description: 'Browse the Vitamsana restaurant menu by breakfast, signature plates, grill, drinks, dessert, and quick bites.',
+      pill: 'Menu',
+      heroTitle: 'A cleaner, restaurant-first menu for Vitamsana.',
+      heroText: 'Filter the dishes by dining moment, sort by price or name, and use each product card to jump directly into ordering.',
+      serviceNote: 'Service note',
+      serviceText: 'Menu items are grouped to match how guests browse in real life: breakfast, quick bites, signature dishes, grill, drinks, and dessert.',
+      filterLabel: 'Filter by category',
+      sortLabel: 'Sort by',
+      noItems: 'No menu items match that filter yet.',
+      all: 'All Categories',
+      breakfast: 'Breakfast',
+      signature: 'Signature Plates',
+      grill: 'Flame Grill',
+      quick: 'Quick Bites',
+      drinks: 'Drinks',
+      dessert: 'Dessert',
+    },
+    sw: {
+      title: 'Menyu',
+      description: 'Angalia menyu ya Vitamsana kwa kifungua kinywa, sahani maalum, grill, vinywaji, dessert, na vyakula vya haraka.',
+      pill: 'Menyu',
+      heroTitle: 'Menyu safi zaidi ya Vitamsana inayoweka restaurant mbele.',
+      heroText: 'Chuja vyakula kwa aina ya kula, panga kwa bei au jina, kisha tumia kila card kuanza oda moja kwa moja.',
+      serviceNote: 'Maelezo ya huduma',
+      serviceText: 'Vyakula vimepangwa kulingana na namna wageni wanavyovinjari kwenye maisha halisi: kifungua kinywa, quick bites, sahani maalum, grill, vinywaji, na dessert.',
+      filterLabel: 'Chuja kwa category',
+      sortLabel: 'Panga kwa',
+      noItems: 'Hakuna item ya menyu inayolingana na chaguo hilo bado.',
+      all: 'Category zote',
+      breakfast: 'Kifungua kinywa',
+      signature: 'Sahani Maalum',
+      grill: 'Grill Moto',
+      quick: 'Vyakula vya Haraka',
+      drinks: 'Vinywaji',
+      dessert: 'Dessert',
+    },
+  }[language];
 
   usePageMeta({
-    title: 'Menu',
-    description: 'Browse the Vitamsana restaurant menu by breakfast, signature plates, grill, drinks, dessert, and quick bites.',
+    title: text.title,
+    description: text.description,
     path: urlCategory === 'all' ? '/shop' : `/shop?category=${urlCategory}`,
   });
 
@@ -29,8 +71,8 @@ const Shop = () => {
     }
 
     filtered.sort((a, b) => {
-      const nameA = a.name.toLowerCase();
-      const nameB = b.name.toLowerCase();
+      const nameA = getLocalizedProduct(a, language).name.toLowerCase();
+      const nameB = getLocalizedProduct(b, language).name.toLowerCase();
       const priceA = a.price;
       const priceB = b.price;
 
@@ -44,28 +86,28 @@ const Shop = () => {
     });
 
     setFilteredProducts(filtered);
-  }, [categoryFilter, sortOption]);
+  }, [categoryFilter, sortOption, language]);
 
   return (
     <main className="min-h-screen px-4 py-8 md:px-6 md:py-12">
       <div className="mx-auto max-w-7xl">
         <section className="mb-8 rounded-[30px] border border-white/60 bg-white/75 px-6 py-8 shadow-warm backdrop-blur dark:border-white/10 dark:bg-[#1a1411]/86 md:px-8">
-          <span className="pill-label">Menu</span>
+          <span className="pill-label">{text.pill}</span>
           <div className="mt-4 grid gap-6 md:grid-cols-[1.1fr_0.9fr] md:items-end">
             <div className="w-full">
               <h1 className="text-4xl font-bold text-ink-900 dark:text-white md:text-5xl">
-                A cleaner, restaurant-first menu for Vitamsana.
+                {text.heroTitle}
               </h1>
               <p className="mt-4 max-w-2xl text-sm leading-7 text-[#6e5545] dark:text-[#d8c4b5] md:text-base">
-                Filter the dishes by dining moment, sort by price or name, and use each product card to jump directly into ordering.
+                {text.heroText}
               </p>
             </div>
             <div className="surface-card p-5">
               <p className="text-sm font-semibold uppercase tracking-[0.18em] text-brand-700 dark:text-brand-200">
-                Service note
+                {text.serviceNote}
               </p>
               <p className="mt-3 text-sm leading-7 text-[#6f5646] dark:text-[#dcc8b8]">
-                Menu items are grouped to match how guests browse in real life: breakfast, quick bites, signature dishes, grill, drinks, and dessert.
+                {text.serviceText}
               </p>
             </div>
           </div>
@@ -78,7 +120,7 @@ const Shop = () => {
                 htmlFor="category-filter"
                 className="mb-2 block pl-1 text-sm font-medium text-[#5f4637] dark:text-[#ebdccf]"
               >
-                Filter by category
+                {text.filterLabel}
               </label>
               <div className="relative">
                 <select
@@ -87,13 +129,13 @@ const Shop = () => {
                   value={categoryFilter}
                   onChange={(e) => setCategoryFilter(e.target.value)}
                 >
-                  <option value="all">All Categories</option>
-                  <option value="breakfast">Breakfast</option>
-                  <option value="signature">Signature Plates</option>
-                  <option value="grill">Flame Grill</option>
-                  <option value="quick-bites">Quick Bites</option>
-                  <option value="drinks">Drinks</option>
-                  <option value="dessert">Dessert</option>
+                  <option value="all">{text.all}</option>
+                  <option value="breakfast">{text.breakfast}</option>
+                  <option value="signature">{text.signature}</option>
+                  <option value="grill">{text.grill}</option>
+                  <option value="quick-bites">{text.quick}</option>
+                  <option value="drinks">{text.drinks}</option>
+                  <option value="dessert">{text.dessert}</option>
                 </select>
                 <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                   <svg className="w-5 h-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -108,7 +150,7 @@ const Shop = () => {
                 htmlFor="sort-options"
                 className="mb-2 block pl-1 text-sm font-medium text-[#5f4637] dark:text-[#ebdccf]"
               >
-                Sort by
+                {text.sortLabel}
               </label>
               <div className="relative">
                 <select
@@ -145,7 +187,7 @@ const Shop = () => {
         ) : (
           <div className="surface-card py-12 text-center">
             <p className="text-lg text-[#6b5243] dark:text-[#d7c3b4]">
-              No menu items match that filter yet.
+              {text.noItems}
             </p>
           </div>
         )}

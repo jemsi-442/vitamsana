@@ -1,8 +1,26 @@
 import { FaInstagram, FaTiktok } from 'react-icons/fa';
+import { useLanguage } from '../context/LanguageContext';
 import { useTheme } from '../context/ThemeContext';
 
 const Footer = () => {
+  const { language } = useLanguage();
   const { theme } = useTheme();
+  const text = {
+    en: {
+      description: 'Fresh food, warm atmosphere, and simple ordering across dine-in and digital touchpoints.',
+      quickContact: 'Quick contact',
+      call: 'Call',
+      openDaily: 'Open daily: 8:00 AM to 11:00 PM',
+      visit: 'Visit',
+    },
+    sw: {
+      description: 'Chakula kitamu, mazingira ya kuvutia, na njia rahisi ya kuagiza kwa wateja wa mezani na mtandaoni.',
+      quickContact: 'Mawasiliano ya haraka',
+      call: 'Piga simu',
+      openDaily: 'Tunafungua kila siku: 8:00 asubuhi hadi 11:00 jioni',
+      visit: 'Tembelea',
+    },
+  }[language];
 
   return (
     <footer
@@ -18,7 +36,7 @@ const Footer = () => {
             Vitamsana
           </p>
           <p className={`mt-2 text-sm leading-7 ${theme === 'light' ? 'text-[#6a5142]' : 'text-[#d4bfae]'}`}>
-            Fresh food, warm atmosphere, and simple ordering across dine-in and digital touchpoints.
+            {text.description}
           </p>
           <div className="mt-4 flex gap-3">
             <a
@@ -52,22 +70,22 @@ const Footer = () => {
 
         <div>
           <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${theme === 'light' ? 'text-brand-700' : 'text-brand-200'}`}>
-            Quick contact
+            {text.quickContact}
           </p>
           <div className={`mt-3 space-y-2 text-sm ${theme === 'light' ? 'text-[#6a5142]' : 'text-[#d4bfae]'}`}>
             <a href="https://wa.me/255683186987?text=Hello%20Vitamsana%2C%20I%20want%20to%20order." target="_blank" rel="noopener noreferrer" className="block hover:text-brand-500">
               WhatsApp: +255 683 186 987
             </a>
             <a href="tel:+255683186987" className="block hover:text-brand-500">
-              Call: +255 683 186 987
+              {text.call}: +255 683 186 987
             </a>
-            <p>Open daily: 8:00 AM to 11:00 PM</p>
+            <p>{text.openDaily}</p>
           </div>
         </div>
 
         <div>
           <p className={`text-sm font-semibold uppercase tracking-[0.18em] ${theme === 'light' ? 'text-brand-700' : 'text-brand-200'}`}>
-            Visit
+            {text.visit}
           </p>
           <p className={`mt-3 text-sm leading-7 ${theme === 'light' ? 'text-[#6a5142]' : 'text-[#d4bfae]'}`}>
             Dar es Salaam, Tanzania

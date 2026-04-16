@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { FaTimes, FaTrash, FaPaperPlane } from 'react-icons/fa';
 import { useCart } from '../context/CartContext';
-import { products } from '../data/products';
+import { useLanguage } from '../context/LanguageContext';
+import { getLocalizedProduct, products } from '../data/products';
 import { formatTsh } from '../utils/formatCurrency';
 
 const contactNumber = '+255683186987';
 
 const CartModal = () => {
+  const { language } = useLanguage();
   const { 
     isCartOpen, 
     setIsCartOpen, 
@@ -22,9 +24,39 @@ const CartModal = () => {
   // Mini chat state
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
+  const text = {
+    en: {
+      cart: 'Your Cart',
+      empty: 'Cart is Empty',
+      cartEmpty: 'Your cart is empty.',
+      continue: 'Continue browsing',
+      subtotal: 'Subtotal:',
+      orderWhatsapp: 'Order via WhatsApp',
+      orderSms: 'Order via SMS',
+      callUs: 'Call Us',
+      chat: 'Chat with us',
+      placeholder: 'Type a message...',
+      orderText: 'Hello! I want to order my cart items.',
+      received: 'Thank you! We received your message.',
+    },
+    sw: {
+      cart: 'Kikapu Chako',
+      empty: 'Kikapu Kipo Tupu',
+      cartEmpty: 'Kikapu chako kipo tupu.',
+      continue: 'Endelea kuangalia',
+      subtotal: 'Jumla ndogo:',
+      orderWhatsapp: 'Agiza kwa WhatsApp',
+      orderSms: 'Agiza kwa SMS',
+      callUs: 'Piga Simu',
+      chat: 'Ongea nasi',
+      placeholder: 'Andika ujumbe...',
+      orderText: 'Habari! Nataka kuagiza vilivyopo kwenye kikapu changu.',
+      received: 'Asante! Tumepokea ujumbe wako.',
+    },
+  }[language];
 
-  const whatsappURL = `https://wa.me/${contactNumber.replace(/\+/g,'')}?text=Hello! I want to order my cart items.`;
-  const smsURL = `sms:${contactNumber}?body=Hello! I want to order my cart items.`;
+  const whatsappURL = `https://wa.me/${contactNumber.replace(/\+/g,'')}?text=${encodeURIComponent(text.orderText)}`;
+  const smsURL = `sms:${contactNumber}?body=${encodeURIComponent(text.orderText)}`;
   const callURL = `tel:${contactNumber}`;
 
   useEffect(() => {
@@ -48,9 +80,8 @@ const CartModal = () => {
     setMessages(prev => [...prev, { sender: 'user', text: newMessage }]);
     setNewMessage('');
 
-    // Simulate mhudumu reply
     setTimeout(() => {
-      setMessages(prev => [...prev, { sender: 'staff', text: 'Thank you! We received your message.' }]);
+      setMessages(prev => [...prev, { sender: 'staff', text: text.received }]);
     }, 1000);
   };
 
@@ -67,7 +98,7 @@ const CartModal = () => {
       >
         <div className="flex items-center justify-between bg-brand-600 p-5 text-white">
           <h2 className="text-xl font-bold">
-            {cartCount > 0 ? 'Your Cart' : 'Cart is Empty'}
+            {cartCount > 0 ? text.cart : text.empty}
           </h2>
           <button
             onClick={() => setIsCartOpen(false)}
@@ -81,31 +112,34 @@ const CartModal = () => {
           {cartCount === 0 ? (
             <div className="text-center py-8">
               <p className="mb-4 text-[#6e5545] dark:text-[#d8c4b5]">
-                Your cart is empty.
+                {text.cartEmpty}
               </p>
               <button
                 onClick={() => setIsCartOpen(false)}
                 className="cta-primary"
               >
-                Continue browsing
+                {text.continue}
               </button>
             </div>
           ) : (
             <div className="space-y-4">
-              {cartProducts.map(item => (
-                <div
-                  key={item.id}
-                  className="flex items-center gap-4 rounded-[22px] border border-brand-100 bg-white/70 p-3 dark:border-brand-400/10 dark:bg-white/5"
-                >
+              {cartProducts.map(item => {
+                const localizedItem = getLocalizedProduct(item, language);
+
+                return (
+                  <div
+                    key={item.id}
+                    className="flex items-center gap-4 rounded-[22px] border border-brand-100 bg-white/70 p-3 dark:border-brand-400/10 dark:bg-white/5"
+                  >
                   <img
-                    src={item.imageSrc}
-                    alt={item.name}
+                    src={localizedItem.imageSrc}
+                    alt={localizedItem.name}
                     className="h-16 w-16 max-h-[80px] rounded-2xl object-cover"
                   />
                   <div className="flex-grow">
-                    <h3 className="font-medium text-ink-900 dark:text-white">{item.name}</h3>
+                    <h3 className="font-medium text-ink-900 dark:text-white">{localizedItem.name}</h3>
                     <p className="text-brand-600 dark:text-brand-200">
-                      {formatTsh(item.price)} {item.unit}
+                      {formatTsh(item.price)} {localizedItem.unit}
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -125,8 +159,9 @@ const CartModal = () => {
                   >
                     <FaTrash />
                   </button>
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
@@ -134,20 +169,20 @@ const CartModal = () => {
         {cartCount > 0 && (
           <div className="space-y-2 border-t border-brand-200/80 p-4 dark:border-brand-400/15">
             <div className="mb-4 flex items-center justify-between">
-              <span className="font-medium text-[#6e5545] dark:text-[#d8c4b5]">Subtotal:</span>
+              <span className="font-medium text-[#6e5545] dark:text-[#d8c4b5]">{text.subtotal}</span>
               <span className="font-bold text-gray-900 dark:text-white">
                 {formatTsh(subtotal)}
               </span>
             </div>
 
             <div className="flex flex-col gap-2">
-              <a href={whatsappURL} target="_blank" rel="noopener noreferrer" className="w-full rounded-2xl bg-[#21a45d] py-3 text-center font-medium text-white transition hover:bg-[#1c8f51]">Order via WhatsApp</a>
-              <a href={smsURL} className="w-full rounded-2xl bg-[#3460d9] py-3 text-center font-medium text-white transition hover:bg-[#2e56c2]">Order via SMS</a>
-              <a href={callURL} className="w-full rounded-2xl bg-[#3e322b] py-3 text-center font-medium text-white transition hover:bg-[#2e2520]">Call Us</a>
+              <a href={whatsappURL} target="_blank" rel="noopener noreferrer" className="w-full rounded-2xl bg-[#21a45d] py-3 text-center font-medium text-white transition hover:bg-[#1c8f51]">{text.orderWhatsapp}</a>
+              <a href={smsURL} className="w-full rounded-2xl bg-[#3460d9] py-3 text-center font-medium text-white transition hover:bg-[#2e56c2]">{text.orderSms}</a>
+              <a href={callURL} className="w-full rounded-2xl bg-[#3e322b] py-3 text-center font-medium text-white transition hover:bg-[#2e2520]">{text.callUs}</a>
             </div>
 
             <div className="mt-4 border-t border-brand-200/80 pt-3 dark:border-brand-400/15">
-              <h3 className="mb-2 font-medium text-ink-900 dark:text-white">Chat with us</h3>
+              <h3 className="mb-2 font-medium text-ink-900 dark:text-white">{text.chat}</h3>
               <div className="h-40 space-y-1 overflow-y-auto rounded-2xl bg-[#fff3e4] p-2 dark:bg-white/5">
                 {messages.map((msg, idx) => (
                   <div key={idx} className={`max-w-xs rounded-xl p-2 text-sm ${msg.sender === 'user' ? 'bg-[#d6f0df] text-gray-900 dark:bg-[#1f6a43] dark:text-white' : 'bg-brand-100 text-gray-900 dark:bg-brand-400/20 dark:text-white'}`}>
@@ -160,7 +195,7 @@ const CartModal = () => {
                   type="text"
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
-                  placeholder="Type a message..."
+                  placeholder={text.placeholder}
                   className="flex-grow rounded-2xl border border-brand-200 bg-white px-3 py-2 focus:outline-none focus:ring-2 focus:ring-brand-400 dark:border-brand-400/15 dark:bg-white/5 dark:text-white"
                   onKeyDown={e => e.key === 'Enter' && handleSendMessage()}
                 />
